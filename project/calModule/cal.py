@@ -3,11 +3,12 @@
 
 import random
 
-from rdConf import *
+from rdAppConf import *
+from rdEmulatorConf import *
+from exportImg import *
 
-NUMBER_OF_APP = 5   #number of apps, should be larger than TYPES_OF_CONF
-EMULATE_TIMES = 10  #times of emulations
-TBF_DELAY = 3   
+#get emulator conf
+TBF_DELAY, TBF_DELAY_TEST_START, TBF_DELAY_TEST_END, EMULATE_TIMES, NUMBER_OF_APP = readEmulatorConf()
 
 def __initApps():
     """a method to read in conf and initial all apps according to the conf file"""
@@ -97,3 +98,5 @@ def emulate():
     print "oneAppCCCHAvg: %d" % oneAppCCCHAvg
     print "ThreeAppsCCCHAvg: %d" % ThreeAppsCCCHAvg
     print "FiveAppsCCCHAvg: %d" % FiveAppsCCCHAvg
+    
+    exportCCCHAvgToPNG([oneAppCCCHAvg, ThreeAppsCCCHAvg, FiveAppsCCCHAvg])

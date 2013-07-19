@@ -12,7 +12,7 @@ def readAppConf():
     confs = []
     path = os.path.dirname(__file__)
     while (cnt <= TYPES_OF_CONF):
-        fileName = path + "/app" + str(cnt) + ".conf"
+        fileName = path + "/confs/app" + str(cnt) + ".conf"
         try:
             fConf = open(fileName, 'rb')
         except IOError, e:
