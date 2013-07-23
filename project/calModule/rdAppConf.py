@@ -21,12 +21,16 @@ def readAppConf():
         stringData = fConf.read()
         
         appConf = {}
-        appConf["HBTypesStart"] = int(stringData.split("\n")[0].split(":")[1].split(",")[0])
-        appConf["HBTypesEnd"] = int(stringData.split("\n")[0].split(":")[1].split(",")[1])
-        appConf["HBTimesStart"] = int(stringData.split("\n")[1].split(":")[1].split(",")[0])
-        appConf["HBTimesEnd"] = int(stringData.split("\n")[1].split(":")[1].split(",")[1])
-        appConf["HBSizeStart"] = int(stringData.split("\n")[2].split(":")[1].split(",")[0])
-        appConf["HBSizeEnd"] = int(stringData.split("\n")[2].split(":")[1].split(",")[1])
+        #front end
+        appConf["FEHBTypesStart"] = int(stringData.split("\n")[1].split(":")[1].split(",")[0])
+        appConf["FEHBTypesEnd"] = int(stringData.split("\n")[1].split(":")[1].split(",")[1])
+        appConf["FEHBTimesStart"] = int(stringData.split("\n")[2].split(":")[1].split(",")[0])
+        appConf["FEHBTimesEnd"] = int(stringData.split("\n")[2].split(":")[1].split(",")[1])
+        #back end
+        appConf["BEHBTypesStart"] = int(stringData.split("\n")[5].split(":")[1].split(",")[0])
+        appConf["BEHBTypesEnd"] = int(stringData.split("\n")[5].split(":")[1].split(",")[1])
+        appConf["BEHBTimesStart"] = int(stringData.split("\n")[6].split(":")[1].split(",")[0])
+        appConf["BEHBTimesEnd"] = int(stringData.split("\n")[6].split(":")[1].split(",")[1])
         confs.append(appConf)
         fConf.close()
         cnt += 1

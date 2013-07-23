@@ -22,6 +22,8 @@ def readEmulatorConf():
     tbf_delay_test_end = int(stringData.split("\n")[1].split(":")[1].split(",")[1])
     emulate_times = int(stringData.split("\n")[2].split(":")[1])
     number_of_apps = int(stringData.split("\n")[3].split(":")[1])
+    cen_push_start = int(stringData.split("\n")[4].split(":")[1].split(",")[0])
+    cen_push_end = int(stringData.split("\n")[4].split(":")[1].split(",")[1])
     fConf.close()
     
-    return tbf_delay, tbf_delay_test_start, tbf_delay_test_end, emulate_times, number_of_apps
+    return tbf_delay, tbf_delay_test_start, tbf_delay_test_end, emulate_times, number_of_apps, cen_push_start, cen_push_end
