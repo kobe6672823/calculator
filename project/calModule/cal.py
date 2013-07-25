@@ -8,7 +8,7 @@ from rdEmulatorConf import *
 from exportImg import *
 
 #get emulator conf
-TBF_DELAY, TBF_DELAY_TEST_START, TBF_DELAY_TEST_END, EMULATE_TIMES, NUMBER_OF_APP, CEN_PUSH_HB_START, CEN_PUSH_HB_END = readEmulatorConf()
+TBF_DELAY, TBF_DELAY_TEST_START, TBF_DELAY_TEST_END, EMULATE_TIMES, NUMBER_OF_APP, CEN_PUSH_HB_START, CEN_PUSH_HB_END, LAUNCH_APP_INTERVAL = readEmulatorConf()
 
 def __getRandomInt(rangeStr):
     """get a random int from a string represents a range, the string should be in such format: 'start-end'
@@ -24,26 +24,45 @@ def __initApps():
     appConfs = readAppConf()
     apps = []
     cnt = 0
+    launch_time = 0
     while (cnt < NUMBER_OF_APP):
         app = {}
+        
+        #get app launch time
+        app["launchTime"] = launch_time
+        launch_time += __getRandomInt(LAUNCH_APP_INTERVAL)
+        
+        #get heart beat start interval
+        intervals = [__getRandomInt(interval) for interval in appConfs[cnt]["HBIntervals"]]
+        random.shuffle(intervals)
+        hbStartInterval = intervals[0]
+        
         #front end conf
         app["FEHBTypes"] = __getRandomInt(appConfs[cnt]["FEHBTypesRange"])
         type = 0
         app["FEHBTimes"] = []
+        app["FEHBStartTime"] = []
+        hbStartTime = 0
         while (type < app["FEHBTypes"]):
             tmp = random.randint(0, len(appConfs[cnt]["FEHBTimesRanges"]) - 1)
             hbtimes = __getRandomInt(appConfs[cnt]["FEHBTimesRanges"][tmp])
             app["FEHBTimes"].append(hbtimes)
+            app["FEHBStartTime"].append(hbStartTime)
+            hbStartTime += hbStartInterval
             type += 1
         
         #back end conf
         app["BEHBTypes"] = __getRandomInt(appConfs[cnt]["BEHBTypesRange"])
         type = 0
         app["BEHBTimes"] = []
+        app["BEHBStartTime"] = []
+        hbStartTime = 0
         while (type < app["BEHBTypes"]):
             tmp = random.randint(0, len(appConfs[cnt]["BEHBTimesRanges"]) - 1)
             hbtimes = __getRandomInt(appConfs[cnt]["BEHBTimesRanges"][tmp])
             app["BEHBTimes"].append(hbtimes)
+            app["BEHBStartTime"].append(hbStartTime)
+            hbStartTime += hbStartInterval
             type += 1
         apps.append(app)
         cnt += 1
@@ -58,14 +77,17 @@ def __calTimeSlot(timeSlot, app, useFrontConf):
     if (useFrontConf):
         HBTypes = app["FEHBTypes"]
         app["HBTimes"] = app["FEHBTimes"]
+        app["HBStartTime"] = app["FEHBStartTime"]
     else:
         HBTypes = app["BEHBTypes"]
         app["HBTimes"] = app["BEHBTimes"]
+        app["HBStartTime"] = app["BEHBStartTime"]
     type = 0
     while (type < HBTypes):
         cnt = 0
-        while (cnt * app["HBTimes"][type] < 3600):
-            time = cnt * app["HBTimes"][type]
+        hbStartTime = app["launchTime"] + app["HBStartTime"][cnt]
+        while (hbStartTime + cnt * app["HBTimes"][type] < 3600):
+            time = hbStartTime + cnt * app["HBTimes"][type]
             timeSlot[time] = 1
             cnt += 1
         type += 1
