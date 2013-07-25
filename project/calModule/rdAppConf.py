@@ -27,6 +27,8 @@ def readAppConf():
         #back end
         appConf["BEHBTypesRange"] = stringData.split("\n")[5].split(":")[1]
         appConf["BEHBTimesRanges"] = stringData.split("\n")[6].split(":")[1].split(",")
+        
+        appConf["HBIntervals"] = stringData.split("\n")[8].split(":")[1].split(",")
         confs.append(appConf)
         fConf.close()
         cnt += 1
