@@ -18,7 +18,7 @@ def __autolabel(plt, rects):
 def exportCCCHAvgToPNG(CCCHNonCenAvgs, CCCHCenAvgs):
         """a method to export CCCHAvgs to bar chart"""
 
-        N = 3
+        N = 5
         ind = np.arange(N)  # the x locations for the groups
         width = 0.15       # the width of the bars
 

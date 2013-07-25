@@ -3,15 +3,15 @@
 
 import os
 
-TYPES_OF_CONF = 5   #5 conf files need to be read in
+TYPES_OF_CONF = 10   #10 conf files need to be read in
 
 def readAppConf():
     """a method to read in TYPES_OF_CONF apps conf files"""
     
-    cnt = 1
+    cnt = 0
     confs = []
     path = os.path.dirname(__file__)
-    while (cnt <= TYPES_OF_CONF):
+    while (cnt < TYPES_OF_CONF):
         fileName = path + "/confs/app" + str(cnt) + ".conf"
         try:
             fConf = open(fileName, 'rb')
@@ -22,15 +22,11 @@ def readAppConf():
         
         appConf = {}
         #front end
-        appConf["FEHBTypesStart"] = int(stringData.split("\n")[1].split(":")[1].split(",")[0])
-        appConf["FEHBTypesEnd"] = int(stringData.split("\n")[1].split(":")[1].split(",")[1])
-        appConf["FEHBTimesStart"] = int(stringData.split("\n")[2].split(":")[1].split(",")[0])
-        appConf["FEHBTimesEnd"] = int(stringData.split("\n")[2].split(":")[1].split(",")[1])
+        appConf["FEHBTypesRange"] = stringData.split("\n")[1].split(":")[1]
+        appConf["FEHBTimesRanges"] = stringData.split("\n")[2].split(":")[1].split(",")
         #back end
-        appConf["BEHBTypesStart"] = int(stringData.split("\n")[5].split(":")[1].split(",")[0])
-        appConf["BEHBTypesEnd"] = int(stringData.split("\n")[5].split(":")[1].split(",")[1])
-        appConf["BEHBTimesStart"] = int(stringData.split("\n")[6].split(":")[1].split(",")[0])
-        appConf["BEHBTimesEnd"] = int(stringData.split("\n")[6].split(":")[1].split(",")[1])
+        appConf["BEHBTypesRange"] = stringData.split("\n")[5].split(":")[1]
+        appConf["BEHBTimesRanges"] = stringData.split("\n")[6].split(":")[1].split(",")
         confs.append(appConf)
         fConf.close()
         cnt += 1
