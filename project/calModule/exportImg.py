@@ -24,16 +24,19 @@ def exportCCCHAvgToPNG(CCCHNonCenAvgs, CCCHCenAvgs):
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        rects1 = ax.bar(ind, CCCHNonCenAvgs, width, color='r')
+        maxHeight = max(CCCHNonCenAvgs + CCCHCenAvgs)
+        ax.set_ylim(0, maxHeight*1.1)
+        rects1 = ax.bar(ind, CCCHNonCenAvgs, width, color='#444444')
 
-        rects2 = ax.bar(ind+width, CCCHCenAvgs, width, color='y')
+        rects2 = ax.bar(ind+width, CCCHCenAvgs, width, color='#999999')
     
+        
         plt.title("CCCH average")
         plt.xlabel('number of apps')
         plt.ylabel('CCCH blocks consumption')
         
         ax.set_xticks(ind+width)
-        ax.set_xticklabels(("oneApp", "threeApps", "fiveApps"))
+        ax.set_xticklabels(("oneApp", "threeApps", "fiveApps", "sevenApps", "tenApps"))
 
         fontP = FontProperties()
         fontP.set_size('small')
